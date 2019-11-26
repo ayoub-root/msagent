@@ -1,20 +1,33 @@
-class msagent:
-    def __init__(self,name):
-        self.name=name
+
+# mqttagent("id_of client",broker_url=test.mosquitto.org,port=1883,list of topic to subscribe ={'a'},
+# list of callbacks which should be created before for each topic={on})
+# send_data(name of topic='a',message to publish ="ccccc")
+
+import threading
+from mqttagent import mqttagent
+
+#broker = "test.mosquitto.org"
+broker = "127.0.0.1"
+port = 1883
 
 
-    def run_cmd(self):
-        pass
-    def get_cmd(self):
-        pass
-    def send_cmd(self):
-        pass
-    def get_data(self):
-        pass
-    def send_data(self):
-        pass
-    #####################
-    def publish(self):
-        pass
-    def subscribe(self):
-        pass
+def control(client, userdata, message):
+    print(str(message.payload.decode('utf_8'))+"   "+str(message.topic))
+
+
+
+ss = mqttagent("dddd", broker, port, ["control","b"], [control,control])
+#threading.Thread(targe
+for i in range(1,10):
+    ss.send_data("control","{'endpoint:'www.google.Com'}")
+                 #).start()
+
+
+
+
+
+
+#threading.Thread(target=
+#ss.send_data("b","sssqsssoijiojisojo")
+#).start()
+#threading.Thread(target=ss.send_data,args=("b","ssoihoihoihsoijiojisojo")).start()
