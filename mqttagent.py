@@ -15,6 +15,11 @@ def on_message(client, userdata, message): # default arrived messege
     print("Data requested "+str(message.payload)+"  "+str(message.topic))
 
 class mqttagent:
+
+    def __init__(self,id,broker,port):
+        self.dev_id = id
+        self.clientpub = mqtt.Client(self.dev_id + "pub")
+        self.clientpub.connect(broker, port)
     def __init__(self,id,broker,port,topics,callbacks):
         self.dev_id=id
         self.topics=topics

@@ -3,7 +3,6 @@
 # list of callbacks which should be created before for each topic={on})
 # send_data(name of topic='a',message to publish ="ccccc")
 
-import threading
 from mqttagent import mqttagent
 
 #broker = "test.mosquitto.org"
