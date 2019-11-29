@@ -1,50 +1,53 @@
 # -*- coding: utf-8 -*-
-
+import json
 import threading
-import urllib
+import urllib.request, urllib.parse
+class httpagent:
+    def __init__(self):
+        pass
+
+    def get_async(self, url, data=None, callback=None):
+        self.request_async(url, data, self.get, callback)
 
 
-def get_async(url, data=None, callback=None):
-    request_async(url, data, get, callback)
+    def post_async(self, url, data=None, callback=None):
+        self.request_async(url, data, self.post, callback)
 
 
-def post_async(url, data=None, callback=None):
-    request_async(url, data, post, callback)
+    def request_async(self, url, data, method, callback):
+        event = threading.Event()
+        runner = threading.Thread(target=self.run,
+                                  args=(event, url, data, method, callback))
+        runner.start()
+        event.wait()
 
 
-def request_async(url, data, method, callback):
-    event = threading.Event()
-    runner = threading.Thread(target=run,
-                              args=(event, url, data, method, callback))
-    runner.start()
-    event.wait()
+    def run(self, event, url, data, method, callback):
+        event.set()
+        result = method(url, data)
+        if callback:
+            callback(result)
 
 
-def run(event, url, data, method, callback):
-    event.set()
-    result = method(url, data)
-    if callback:
-        callback(result)
+    def get(self, url, data):
+        if data:
+            params = urllib.parse.urlencode(data)
+            url = '?'.join(url, params)
+        return urllib.request.urlopen(url).read()
 
 
-def get(url, data):
-    if data:
-        params = urllib.urlencode(data)
-        url = '?'.join(url, params)
-    return urllib.urlopen(url).read()
-
-
-def post(url, data):
-    if data:
-        params = urllib.urlencode(data)
-        return urllib.urlopen(url, params).read()
-    else:
-        return urllib.urlopen(url).read()
+    def post(self, url, data):
+        if data:
+            params = urllib.parse.urlencode(data)
+            return urllib.request.urlopen(url, params).read()
+        else:
+            return urllib.request.urlopen(url).read()
 
 
 if __name__ == '__main__':
     def print_response(response):
-        print(response)
+        print((response))
 
-    get_async('http://localhost:8080', callback=print_response)
+    s=httpagent()
+    s.post_async('http://localhost:8000',None, callback=print_response)
     print('done.')
