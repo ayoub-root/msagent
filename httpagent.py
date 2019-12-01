@@ -9,10 +9,11 @@ class httpagent:
     def get_async(self, url, data=None, callback=None):
         self.request_async(url, data, self.get, callback)
 
-
     def post_async(self, url, data=None, callback=None):
         self.request_async(url, data, self.post, callback)
 
+    def post_async(self, url, data=None, callback=None):
+        self.request_async(url, data, self.post, callback)
 
     def request_async(self, url, data, method, callback):
         event = threading.Event()
@@ -21,6 +22,8 @@ class httpagent:
         runner.start()
         event.wait()
 
+    def get_async(self, url, data=None, callback=None):
+        self.request_async(url, data, self.get, callback)
 
     def run(self, event, url, data, method, callback):
         event.set()

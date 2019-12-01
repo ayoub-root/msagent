@@ -20,10 +20,12 @@ ss = mqttagent("dddd", broker, port, ["control","b"], [control,control])
 for i in range(1,10):
     ss.send_data("control","{'endpoint:'www.google.Com'}")
                  #).start()
+kkk
+def print_response(response):
+    print((response))
 
-e
-k
-k
+s=httpagent()
+s.post_async('http://localhost:8000',None, callback=print_response)
 
 
 #threading.Thread(target=
