@@ -24,10 +24,10 @@ class httpagent:
 
     def run(self, event, url, data, method, callback):
         event.set()
+
         result = method(url, data)
         if callback:
             callback(result)
-
 
     def get(self, url, data):
         if data:
@@ -44,14 +44,6 @@ class httpagent:
             return urllib.request.urlopen(url).read()
 
 
-if __name__ == '__main__':
-    def print_response(response):
-        print((response))
-
-    s=httpagent()
-    s.post_async('http://localhost:8000',None, callback=print_response)
-    print('done.')
-b
 
 
 
